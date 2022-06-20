@@ -4,6 +4,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <ion-item>
+    <ion-label position="floating"> E-mail </ion-label>
+    <ion-input> </ion-input>
+  </ion-item>
+  <!-- <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner> -->
   <ion-button color="primary" (click)="onLogin()">Login</ion-button>
 </ion-content>

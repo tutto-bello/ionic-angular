@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, SegmentChangeEventDetail } from '@ionic/angular';
 import { Place } from '../place.module';
 
 import { PlacesService } from '../places.service';
@@ -11,6 +11,7 @@ import { PlacesService } from '../places.service';
 })
 export class DiscoverPage implements OnInit {
   loadedPlaces: Place[];
+  listLoadedPlaces: Place[];
 
   constructor(
     private placesService: PlacesService,
@@ -19,9 +20,14 @@ export class DiscoverPage implements OnInit {
 
   ngOnInit() {
     this.loadedPlaces = this.placesService.places;
+    this.listLoadedPlaces = this.placesService.places.slice(1);
   }
 
   onOpenMenu() {
     this.menuCtrl.toggle();
+  }
+
+  onFilterUpdate(event: CustomEvent<SegmentChangeEventDetail>) {
+    console.log(event.detail);
   }
 }
