@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>new-offer</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onCreateOffer()">
+      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -19,7 +19,12 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label position="floating"> Title </ion-label>
-            <ion-input type="text" autocomplete autocorrect></ion-input>
+            <ion-input
+              type="text"
+              autocomplete
+              autocorrect
+              formControlName="title"
+            ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -27,15 +32,32 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label position="floating"> Short Description </ion-label>
-            <ion-textarea position="floating" rows="3"> </ion-textarea>
+            <ion-textarea
+              position="floating"
+              rows="3"
+              formControlName="descripiton"
+            >
+            </ion-textarea>
           </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row
+        *ngIf="!form.get('descripiton').valid && form.get('descripiton').touched"
+      >
+        <ion-col>
+          <p>Decsription must be between 1 and 180 characters</p>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label position="floating"> Price</ion-label>
-            <ion-input type="number" autocomplete autocorrect></ion-input>
+            <ion-input
+              type="number"
+              autocomplete
+              autocorrect
+              formControlName="price"
+            ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -43,13 +65,25 @@
         <ion-col size-sm="3" offset-sm="3">
           <ion-item>
             <ion-label position="floating"> Awilabel from </ion-label>
-            <ion-datetime min="2020-01-01" max="2025-12-31"> </ion-datetime>
+            <ion-datetime
+              min="2020-01-01"
+              max="2025-12-31"
+              formControlName="dateForm"
+              presentation="date-time"
+            >
+            </ion-datetime>
           </ion-item>
         </ion-col>
         <ion-col size-sm="3">
           <ion-item>
             <ion-label position="floating"> Awilabel to </ion-label>
-            <ion-datetime min="2020-01-02" max="2025-12-31"> </ion-datetime>
+            <ion-datetime
+              min="2020-01-02"
+              max="2025-12-31"
+              formControlName="dateTo"
+              presentation="date-time"
+            >
+            </ion-datetime>
           </ion-item>
         </ion-col>
       </ion-row>
