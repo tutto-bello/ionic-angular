@@ -28,7 +28,7 @@ export class PlacesService {
       price: 109.99,
       avilableFrom: new Date(),
       avilableTo: new Date('2022.12.31'),
-      userId: 'abc',
+      userId: 'fgh',
     },
     {
       id: 'p3',
@@ -38,7 +38,7 @@ export class PlacesService {
       price: 99.99,
       avilableFrom: new Date(),
       avilableTo: new Date('2022.12.31'),
-      userId: 'abc',
+      userId: 'fga',
     },
   ]);
 
