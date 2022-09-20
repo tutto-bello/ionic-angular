@@ -50,13 +50,6 @@ const routes: Routes = [
               ),
           },
           {
-            path: ':placeId',
-            loadChildren: () =>
-              import('./offers/offer-bookings/offer-bookings.module').then(
-                (m) => m.OfferBookingsPageModule
-              ),
-          },
-          {
             path: '',
             redirectTo: '/places/tabs/discover',
             pathMatch: 'full',

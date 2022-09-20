@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActionSheetController,
+  AlertController,
   LoadingController,
   ModalController,
   NavController,
@@ -21,6 +22,7 @@ import { PlacesService } from '../../places.service';
 export class PlaceDetailsPage implements OnInit, OnDestroy {
   place: Place;
   isBookable = false;
+  isLoading = false;
   private placesSub: Subscription;
 
   constructor(
@@ -31,7 +33,9 @@ export class PlaceDetailsPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private bookingSercvice: BookingService,
     private loadingCtrl: LoadingController,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private routerr: Router
   ) {}
 
   ngOnInit() {
@@ -40,12 +44,34 @@ export class PlaceDetailsPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack('/places/tabs/discover');
         return;
       }
+      this.isLoading = true;
       this.placesSub = this.placesService
         .getPlace(paramMap.get('placeId'))
-        .subscribe((place) => {
-          this.place = place;
-          this.isBookable = place.userId !== this.authService.userID;
-        });
+        .subscribe(
+          (place) => {
+            this.place = place;
+            this.isBookable = place.userId !== this.authService.userID;
+            this.isLoading = false;
+          },
+          (error) => {
+            this.alertCtrl
+              .create({
+                header: 'An error occured!',
+                message: 'Colud not load place',
+                buttons: [
+                  {
+                    text: 'Okay',
+                    handler: () => {
+                      this.routerr.navigate(['/places/tabs/discover']);
+                    },
+                  },
+                ],
+              })
+              .then((alertEl) => {
+                alertEl.present();
+              });
+          }
+        );
     });
   }
   onBookPlace() {
