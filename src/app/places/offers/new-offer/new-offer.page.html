@@ -5,7 +5,10 @@
     </ion-buttons>
     <ion-title>new-offer</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
+      <ion-button
+        (click)="onCreateOffer()"
+        [disabled]="!form.valid || !form.get('image').value"
+      >
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -63,15 +66,29 @@
       </ion-row>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
+          <ion-label position="floating" class="ion-margin">
+            Position
+          </ion-label>
           <app-location-picker
             (locationPick)="onLocationPicked($event)"
           ></app-location-picker>
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-label position="floating" class="ion-margin"> Image </ion-label>
+          <app-image-picker
+            [usePicker]="true"
+            (imagePick)="onImagePicked($event)"
+          ></app-image-picker>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col size-sm="3" offset-sm="3">
+          <ion-label position="floating" class="ion-margin">
+            Awilabel from
+          </ion-label>
           <ion-item>
-            <ion-label position="floating"> Awilabel from </ion-label>
             <ion-datetime
               min="2020-01-01"
               max="2025-12-31"
@@ -82,8 +99,10 @@
           </ion-item>
         </ion-col>
         <ion-col size-sm="3">
+          <ion-label position="floating" class="ion-margin">
+            Awilabel to
+          </ion-label>
           <ion-item>
-            <ion-label position="floating"> Awilabel to </ion-label>
             <ion-datetime
               min="2020-01-02"
               max="2025-12-31"
