@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { PlaceLocation } from './offers/loaction.module';
 import { Place } from './place.module';
 
 interface PlaceDataResponse {
@@ -13,6 +14,7 @@ interface PlaceDataResponse {
   price: number;
   title: string;
   userId: string;
+  location: PlaceLocation;
 }
 
 // {
@@ -78,7 +80,8 @@ export class PlacesService {
                   resData[key].price,
                   new Date(resData[key].avilableFrom),
                   new Date(resData[key].avilableTo),
-                  resData[key].userId
+                  resData[key].userId,
+                  resData[key].location
                 )
               );
             }
@@ -107,7 +110,8 @@ export class PlacesService {
               resData.price,
               new Date(resData.avilableFrom),
               new Date(resData.avilableTo),
-              resData.userId
+              resData.userId,
+              resData.location
             )
         )
       );
@@ -118,8 +122,10 @@ export class PlacesService {
     description: string,
     price: number,
     dateFrom: Date,
-    dateTo: Date
+    dateTo: Date,
+    location: PlaceLocation
   ) {
+    console.log(location, 'addPlace');
     let generatedId: string;
     const newPlace = new Place(
       Math.random().toString(),
@@ -129,7 +135,8 @@ export class PlacesService {
       price,
       dateFrom,
       dateTo,
-      this.authService.userID
+      this.authService.userID,
+      location
     );
 
     return this.http
@@ -189,7 +196,8 @@ export class PlacesService {
           oldPlace.price,
           oldPlace.avilableFrom,
           oldPlace.avilableTo,
-          oldPlace.userId
+          oldPlace.userId,
+          oldPlace.location
         );
         return this.http.put(
           `https://ionic-angular-course-cc323-default-rtdb.europe-west1.firebasedatabase.app/offered-places/${placeId}.json`,
