@@ -70,6 +70,7 @@
             Position
           </ion-label>
           <app-location-picker
+            [showPreview]="form.value.location"
             (locationPick)="onLocationPicked($event)"
           ></app-location-picker>
         </ion-col>
@@ -78,7 +79,7 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-label position="floating" class="ion-margin"> Image </ion-label>
           <app-image-picker
-            [usePicker]="true"
+            [showPreview]="form.value.image"
             (imagePick)="onImagePicked($event)"
           ></app-image-picker>
         </ion-col>

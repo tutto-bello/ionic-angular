@@ -17,37 +17,6 @@ interface PlaceDataResponse {
   location: PlaceLocation;
 }
 
-// {
-//   id: 'p1',
-//   title: 'New York Manhattan',
-//   description: 'New York Manhattan heart of cty',
-//   imgUrl:
-//     'https://blog-www.pods.com/wp-content/uploads/2019/04/MG_1_1_New_York_City-1.jpg',
-//   price: 149.99,
-//   avilableFrom: new Date(),
-//   avilableTo: new Date('2022.12.31'),
-//   userId: 'abc',
-// },
-// {
-//   id: 'p2',
-//   title: 'L/amour toujours',
-//   description: 'sjchaéigubfv fjnvőpewiurgh fvku ',
-//   imgUrl: 'https://data.whicdn.com/images/134079763/original.jpg',
-//   price: 109.99,
-//   avilableFrom: new Date(),
-//   avilableTo: new Date('2022.12.31'),
-//   userId: 'fgh',
-// },
-// {
-//   id: 'p3',
-//   title: 'The foggy palace',
-//   description: 'The big height palace of germeny',
-//   imgUrl: 'https://tangiyoga.files.wordpress.com/2015/04/castle-in-fog.jpg',
-//   price: 99.99,
-//   avilableFrom: new Date(),
-//   avilableTo: new Date('2022.12.31'),
-//   userId: 'fga',
-// },
 @Injectable({
   providedIn: 'root',
 })
@@ -117,13 +86,24 @@ export class PlacesService {
       );
   }
 
+  uploadImaeg(image: File) {
+    const uploadedData = new FormData();
+    uploadedData.append('image', image);
+
+    return this.http.post<{ imageUrl: string; imagePath: string }>(
+      'https://us-central1-ionic-angular-course-cc323.cloudfunctions.net/storeImage',
+      uploadedData
+    );
+  }
+
   addPlace(
     title: string,
     description: string,
     price: number,
     dateFrom: Date,
     dateTo: Date,
-    location: PlaceLocation
+    location: PlaceLocation,
+    imageUrl: string
   ) {
     console.log(location, 'addPlace');
     let generatedId: string;
@@ -131,7 +111,7 @@ export class PlacesService {
       Math.random().toString(),
       title,
       description,
-      'https://tangiyoga.files.wordpress.com/2015/04/castle-in-fog.jpg',
+      imageUrl,
       price,
       dateFrom,
       dateTo,

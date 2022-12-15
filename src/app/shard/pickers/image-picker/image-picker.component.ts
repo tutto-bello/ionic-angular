@@ -19,6 +19,7 @@ import { Platform } from '@ionic/angular';
 export class ImagePickerComponent implements OnInit {
   @ViewChild('filePicker') filePickerRef: ElementRef<HTMLInputElement>;
   @Output() imagePick = new EventEmitter<string | File>();
+  @Input() showPreview = false;
   @Input() usePicker = false;
   selectedImage: string;
   constructor(private platform: Platform) {}
@@ -47,11 +48,14 @@ export class ImagePickerComponent implements OnInit {
       resultType: CameraResultType.Base64,
     })
       .then((image) => {
-        this.selectedImage = image.base64String;
+        this.selectedImage = 'data:image/jpeg;base64,' + image.base64String;
         this.imagePick.emit(image.base64String);
       })
       .catch((error) => {
         console.log(error);
+        if (this.usePicker) {
+          this.filePickerRef.nativeElement.click();
+        }
         return false;
       });
   }

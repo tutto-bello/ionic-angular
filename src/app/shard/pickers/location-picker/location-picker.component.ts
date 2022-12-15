@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
@@ -24,6 +24,8 @@ import { Geolocation } from '@capacitor/geolocation';
 })
 export class LocationPickerComponent implements OnInit {
   @Output() locationPick = new EventEmitter<PlaceLocation>();
+  @Input() showPreview = false;
+
   isLoading = false;
   selectedLocationImg: string;
   constructor(

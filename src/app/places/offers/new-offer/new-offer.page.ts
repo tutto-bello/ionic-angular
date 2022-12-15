@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { switchMap } from 'rxjs/operators';
 import { PlacesService } from '../../places.service';
 import { PlaceLocation } from '../loaction.module';
 
@@ -103,13 +104,19 @@ export class NewOfferPage implements OnInit {
       .then((loadingEl) => {
         loadingEl.present();
         this.placesService
-          .addPlace(
-            this.form.value.title,
-            this.form.value.descripiton,
-            +this.form.value.price,
-            new Date(this.form.value.dateForm),
-            new Date(this.form.value.dateTo),
-            this.form.value.location
+          .uploadImaeg(this.form.value.image)
+          .pipe(
+            switchMap((uploadResponse) =>
+              this.placesService.addPlace(
+                this.form.value.title,
+                this.form.value.descripiton,
+                +this.form.value.price,
+                new Date(this.form.value.dateForm),
+                new Date(this.form.value.dateTo),
+                this.form.value.location,
+                uploadResponse.imageUrl
+              )
+            )
           )
           .subscribe(() => {
             loadingEl.dismiss();
